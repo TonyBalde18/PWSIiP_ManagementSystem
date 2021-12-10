@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            margin: 10%;
+            margin-left: 10%;
+        }
+
+        #slider {
+            position: relative;
+            width: 1350px;
+            height: 400px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        }
+
+            #slider ul {
+                position: relative;
+                list-style: none;
+                height: 100%;
+                width: 10000%;
+                padding: 0;
+                margin: 0;
+                transition: all 750ms ease;
+                left: 0;
+            }
+
+                #slider ul li {
+                    position: relative;
+                    height: 100%;
+                    float: left;
+                }
+
+                    #slider ul li img {
+                        width: 1350px;
+                        height: 400px;
+                    }
+
+            #slider #prev, #slider #next {
+                width: 50px;
+                line-height: 50px;
+                border-radius: 50%;
+                font-size: 2rem;
+                text-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+                text-align: center;
+                color: white;
+                text-decoration: none;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                transition: all 150ms ease;
+            }
+
+                #slider #prev:hover, #slider #next:hover {
+                    background-color: rgba(0, 0, 0, 0.5);
+                    text-shadow: 0;
+                }
+
+            #slider #prev {
+                left: 10px;
+            }
+
+            #slider #next {
+                right: 10px;
+            }
+    </style>
+</head>
+<body>
+    <div id="slider">
+        <ul id="slideWrap">
+            <li><img src="~/img/pwsiip1.jpg" alt=""></li>
+            <li><img src="~/img/pwsiip2.jpeg" alt=""></li>
+            <li><img src="~/img/pwsiip3.jpg" alt=""></li>
+        </ul>
+        <a id="prev" href="#">&#8810;</a>
+        <a id="next" href="#">&#8811;</a>
+    </div>
+
+
+    <script>
+        var responsiveSlider = function () {
+
+            var slider = document.getElementById("slider");
+            var sliderWidth = slider.offsetWidth;
+            var slideList = document.getElementById("slideWrap");
+            var count = 1;
+            var items = slideList.querySelectorAll("li").length;
+            var prev = document.getElementById("prev");
+            var next = document.getElementById("next");
+
+            window.addEventListener('resize', function () {
+                sliderWidth = slider.offsetWidth;
+            });
+
+            var prevSlide = function () {
+                if (count > 1) {
+                    count = count - 2;
+                    slideList.style.left = "-" + count * sliderWidth + "px";
+                    count++;
+                }
+                else if (count = 1) {
+                    count = items - 1;
+                    slideList.style.left = "-" + count * sliderWidth + "px";
+                    count++;
+                }
+            };
+
+            var nextSlide = function () {
+                if (count < items) {
+                    slideList.style.left = "-" + count * sliderWidth + "px";
+                    count++;
+                }
+                else if (count = items) {
+                    slideList.style.left = "0px";
+                    count = 1;
+                }
+            };
+
+            next.addEventListener("click", function () {
+                nextSlide();
+            });
+
+            prev.addEventListener("click", function () {
+                prevSlide();
+            });
+
+            setInterval(function () {
+                nextSlide()
+            }, 5000);
+
+        };
+
+        window.onload = function () {
+            responsiveSlider();
+        }
+
+
+    </script>
+    <title>
+        @ViewBag.Title - PAŃSTWOWA WYŻSZA SZKOŁA INFORMATYKI I PRZEDSIĘBIORCZOŚCI W ŁOMŻY
+    </title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="logo-image">
+                    <img src="~/img/logo.svg" class="pull-right width="50px" height="50px">
+                    <img src="~/img/herbpolski.svg" class="pull-right width="50px" height="50px">
+                </div>
+                <div class="container">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("PWSIiP", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li>@Html.ActionLink("Students", "Index", "Student")</li>
+                            <li>@Html.ActionLink("Courses", "Index", "Course")</li>
+                            <li>@Html.ActionLink("Instructors", "Index", "Instructor")</li>
+                            <li>@Html.ActionLink("Departments", "Index", "Department")</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - Lomza State University of Applied Sciences (Państwowa Wyższa Szkoła Informatyki i Przedsiębiorczości w Łomży - PWSIP)</p>
+            </footer>
+        </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>
+</html>
